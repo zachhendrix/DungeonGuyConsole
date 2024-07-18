@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using static DungeonGuyConsole.Character.CharacterClass;
 using static DungeonGuyConsole.Character.CharacterRace;
 
@@ -6,6 +7,8 @@ namespace DungeonGuyConsole
 {
     internal class CharacterMenu
     {
+        private const int _minNameLength = 3;
+        private const int _maxNameLength = 14;
         public Character.Character character = new Character.Character();
 
         public void CharacterMenuText()
@@ -14,87 +17,73 @@ namespace DungeonGuyConsole
             _setCharacterName();
             _setCharacterRace();
             _setCharacterJob();
-            Console.WriteLine((string)(character.Name + " " + character.Race + " " + character.Job));
+            Console.WriteLine($"{character.Name} {character.Race} {character.Job}");
         }
 
         private void _setCharacterName()
         {
-            Console.WriteLine("What is your name");
-            string name = Console.ReadLine();
-            _nameValidator(name);
-            character.Name = name;
+            while (true)
+            {
+                Console.WriteLine("What is your name?");
+                string name = Console.ReadLine();
+                if (_validateName(name))
+                {
+                    character.Name = name;
+                    break;
+                }
+                Console.WriteLine($"Name must be between {_minNameLength} and {_maxNameLength} characters. Please try again.");
+            }
         }
 
         private void _setCharacterRace()
         {
-            Console.WriteLine("What are you?");
-            foreach (Race race in Enum.GetValues(typeof(Race)))
+            while (true)
             {
-                Console.WriteLine($"{(int)race + 1} . {race}");
+                Console.WriteLine("What are you?");
+                foreach (Race race in Enum.GetValues(typeof(Race)))
+                {
+                    Console.WriteLine($"{(int)race + 1}. {race}");
+                }
+
+                string raceSelection = Console.ReadLine();
+                if (_validateSelection(raceSelection, Enum.GetValues(typeof(Race)).Length, out int selectionInt))
+                {
+                    character.Race = (Race)(selectionInt - 1);
+                    break;
+                }
+                Console.WriteLine("Invalid selection. Please try again.");
             }
-            string raceSelection = Console.ReadLine();
-            int selectionInt = _raceValidator(raceSelection);
-            character.Race = (Race)selectionInt - 1;
         }
 
-        private void _setCharacterJob() 
+        private void _setCharacterJob()
         {
-            Console.WriteLine("What do you excel in?");
-            foreach (Job job in Enum.GetValues(typeof(Job)))
+            while (true)
             {
-                Console.WriteLine($"{(int)job + 1} . {job}");
+                Console.WriteLine("What do you excel in?");
+                foreach (Job job in Enum.GetValues(typeof(Job)))
+                {
+                    Console.WriteLine($"{(int)job + 1}. {job}");
+                }
+
+                string jobSelection = Console.ReadLine();
+                if (_validateSelection(jobSelection, Enum.GetValues(typeof(Job)).Length, out int selectionInt))
+                {
+                    character.Job = (Job)(selectionInt - 1);
+                    break;
+                }
+                Console.WriteLine("Invalid selection. Please try again.");
             }
-            string jobSelection = Console.ReadLine();
-            int selectionInt = _jobValidator(jobSelection);
-            character.Job = (Job)selectionInt - 1;
         }
 
-        private string _nameValidator(string name)
+        private bool _validateName(string name)
         {
-            Regex regex = new Regex(@"^.{3,14}$");
-
-            if (regex.IsMatch(name))
-            {
-                return name;
-            }
-            else
-            {
-                Console.WriteLine("Name must have more than 2 characters and less than 15 characters. Please try again.");
-                _setCharacterName();
-            }
-            return "ErrorName";
+            return !string.IsNullOrWhiteSpace(name) && name.Length >= _minNameLength && name.Length <= _maxNameLength;
         }
 
-        private int _raceValidator(string raceSelection)
+        private bool _validateSelection(string input, int maxOption, out int selection)
         {
-            Regex regex = new Regex(@"^\d+$");
-            if (regex.IsMatch(raceSelection))
-            {
-                int selectionInt = int.Parse(raceSelection);
-                return selectionInt;
-            }
-            else
-            {
-                Console.WriteLine("Please select a number");
-                _setCharacterRace();
-            }
-            return 1;
-        }
-
-        private int _jobValidator(string jobSelection)
-        {
-            Regex regex = new Regex(@"^\d+$");
-            if (regex.IsMatch(jobSelection))
-            {
-                int selectionInt = int.Parse(jobSelection);
-                return selectionInt;
-            }
-            else
-            {
-                Console.WriteLine("Please select a number");
-                _setCharacterJob();
-            }
-            return 1;
+            selection = 0;
+            return int.TryParse(input, out selection) && selection > 0 && selection <= maxOption;
         }
     }
 }

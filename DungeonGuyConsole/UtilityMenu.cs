@@ -1,8 +1,11 @@
-﻿using System.Text.RegularExpressions;
+﻿using Microsoft.VisualBasic.FileIO;
+using System.Text.RegularExpressions;
 namespace DungeonGuyConsole
 {
     internal class UtilityMenu
     {
+        private const int MinOption = 1;
+        private const int MaxOption = 3;
         public void TitleText()
         {
             Console.WriteLine("Hello, and welcome to: ");
@@ -14,64 +17,55 @@ namespace DungeonGuyConsole
                               " |_____/ \\__,_|_| |_|\\__, |\\___|\\___/|_| |_|  \\_____|\\__,_|\\__, |\r\n" +
                               "                      __/ |                                 __/ |\r\n" +
                               "                     |___/                                 |___/ ");
-            _menuPrint();
+            _displayMenu();
         }
 
-        private void _menuPrint()
+        private void _displayMenu()
         {
-            Console.WriteLine("1. New Game");
-            Console.WriteLine("2. Continue");
-            Console.WriteLine("3. Help");
-            string selection = Console.ReadLine();
-            _menuSelectionValidation(selection);
-        }
-
-        private void _menuSelectionValidation(string selection)
-        {
-            Regex regex = new Regex(@"^\d+$");
-            if (regex.IsMatch(selection))
+            while (true)
             {
-                int selectionInt = int.Parse(selection);
-                if (selectionInt > 0 && selectionInt < 4)
+                Console.WriteLine("1. New Game");
+                Console.WriteLine("2. Continue");
+                Console.WriteLine("3. Help");
+                string selection = Console.ReadLine();
+
+                if (_validateMenuSelection(selection, out int selectionInt))
                 {
-                    _menuSelection(selectionInt);
+                    _executeMenuSelection(selectionInt);
+                    break;
                 }
                 else
                 {
-                    Console.WriteLine("Enter a number within range");
-                    _menuPrint();
+                    Console.WriteLine("Invalid selection. Please enter a number between 1 and 3.");
                 }
-            }
-            else if (!regex.IsMatch(selection))
-            {
-                Console.WriteLine("Invalid selection: Please enter only numbers.");
-                _menuPrint();
-            }
-            else
-            {
-                Console.WriteLine("Dont do that...");
-                _menuPrint();
             }
         }
 
-        private void _menuSelection(int selection)
+        private bool _validateMenuSelection(string selection, out int selectionInt)
+        {
+            selectionInt = 0;
+            return int.TryParse(selection, out selectionInt) && selectionInt >= MinOption && selectionInt <= MaxOption;
+        }
+
+        private void _executeMenuSelection(int selection)
         {
             CharacterMenu characterMenu = new CharacterMenu();
-            switch(selection)
+            switch (selection)
             {
                 case 1:
                     characterMenu.CharacterMenuText();
                     break;
                 case 2:
+                    // Continue game logic goes here
                     break;
                 case 3:
-                    _helpText();
-                    _menuPrint();
+                    _displayHelpText();
+                    _displayMenu(); // After displaying help, show the menu again
                     break;
             }
         }
 
-        private void _helpText()
+        private void _displayHelpText()
         {
             Console.WriteLine("Help Text Here");
         }
