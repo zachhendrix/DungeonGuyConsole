@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 namespace DungeonGuyConsole
 {
-    internal class UtilityMenu
+    internal class MenuUtility
     {
         private const int MinOption = 1;
         private const int MaxOption = 3;

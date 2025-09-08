@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Data.Character;
+using System;
 using System.Text.RegularExpressions;
-using static DungeonGuyConsole.Character.CharacterClass;
-using static DungeonGuyConsole.Character.CharacterRace;
 
 namespace DungeonGuyConsole
 {
@@ -9,7 +8,7 @@ namespace DungeonGuyConsole
     {
         private const int _minNameLength = 3;
         private const int _maxNameLength = 14;
-        public Character.Character character = new Character.Character();
+        public Character character = new Character();
 
         public void CharacterMenuText()
         {
@@ -59,7 +58,7 @@ namespace DungeonGuyConsole
         {
             while (true)
             {
-                Console.WriteLine("What do you excel in?");
+                Console.WriteLine("What job do you have?");
                 foreach (Job job in Enum.GetValues(typeof(Job)))
                 {
                     Console.WriteLine($"{(int)job + 1}. {job}");
