@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 namespace DungeonGuyConsole
 {
-    internal class MenuUtility
+    internal class MainMenu
     {
         private const int MinOption = 1;
         private const int MaxOption = 3;
@@ -56,11 +56,10 @@ namespace DungeonGuyConsole
                     characterMenu.CharacterMenuText();
                     break;
                 case 2:
-                    // Continue game logic goes here
                     break;
                 case 3:
                     _displayHelpText();
-                    _displayMenu(); // After displaying help, show the menu again
+                    _displayMenu();
                     break;
             }
         }

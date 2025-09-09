@@ -1,5 +1,6 @@
 ﻿using Data.Character;
 using System;
+using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
 
 namespace DungeonGuyConsole
@@ -8,7 +9,7 @@ namespace DungeonGuyConsole
     {
         private const int _minNameLength = 3;
         private const int _maxNameLength = 14;
-        public Character character = new Character();
+        public static Character character = new Character();
 
         public void CharacterMenuText()
         {
@@ -16,7 +17,31 @@ namespace DungeonGuyConsole
             _setCharacterName();
             _setCharacterRace();
             _setCharacterJob();
+            _menuConfirmation();
             Console.WriteLine($"{character.Name} {character.Race} {character.Job}");
+        }
+
+        private void _menuConfirmation()
+        {
+            GameMenu GameMenu = new GameMenu();
+            Console.WriteLine("Are you sure? Y/N");
+            string confirmation = Console.ReadLine().ToUpper();
+            if (confirmation != null)
+            {
+                if (confirmation == "Y")
+                {
+                    GameMenu.GameMenuText();
+                }
+                else if (confirmation == "N")
+                {
+                    CharacterMenuText();
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter Y or N.");
+                    _menuConfirmation();
+                }
+            }
         }
 
         private void _setCharacterName()
