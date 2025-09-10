@@ -2,11 +2,11 @@
 using System.Text.RegularExpressions;
 namespace DungeonGuyConsole
 {
-    internal class MainMenu
+    public static class MainMenu
     {
         private const int MinOption = 1;
         private const int MaxOption = 3;
-        public void TitleText()
+        public static void TitleText()
         {
             Console.WriteLine("Hello, and welcome to: ");
             Console.WriteLine("  _____                                        _____             \r\n" +
@@ -20,7 +20,7 @@ namespace DungeonGuyConsole
             _displayMenu();
         }
 
-        private void _displayMenu()
+        private static void _displayMenu()
         {
             while (true)
             {
@@ -41,19 +41,18 @@ namespace DungeonGuyConsole
             }
         }
 
-        private bool _validateMenuSelection(string selection, out int selectionInt)
+        private static bool _validateMenuSelection(string selection, out int selectionInt)
         {
             selectionInt = 0;
             return int.TryParse(selection, out selectionInt) && selectionInt >= MinOption && selectionInt <= MaxOption;
         }
 
-        private void _executeMenuSelection(int selection)
+        private static void _executeMenuSelection(int selection)
         {
-            CharacterMenu characterMenu = new CharacterMenu();
             switch (selection)
             {
                 case 1:
-                    characterMenu.CharacterMenuText();
+                    CharacterMenu.CharacterMenuText();
                     break;
                 case 2:
                     break;
@@ -64,7 +63,7 @@ namespace DungeonGuyConsole
             }
         }
 
-        private void _displayHelpText()
+        private static void _displayHelpText()
         {
             Console.WriteLine("Help Text Here");
         }

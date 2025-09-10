@@ -1,17 +1,15 @@
 ﻿using Data.Character;
-using System;
-using System.Reflection.Metadata.Ecma335;
-using System.Text.RegularExpressions;
+using Data.Character.Utility;
+using static Data.Character.Character;
 
 namespace DungeonGuyConsole
 {
-    internal class CharacterMenu
+    public static class CharacterMenu
     {
         private const int _minNameLength = 3;
         private const int _maxNameLength = 14;
-        public static Character character = new Character();
 
-        public void CharacterMenuText()
+        public static void CharacterMenuText()
         {
             Console.WriteLine("Welcome to Dungeon Guy");
             _setCharacterName();
@@ -21,15 +19,15 @@ namespace DungeonGuyConsole
             Console.WriteLine($"{character.Name} {character.Race} {character.Job}");
         }
 
-        private void _menuConfirmation()
+        private static void _menuConfirmation()
         {
-            GameMenu GameMenu = new GameMenu();
             Console.WriteLine("Are you sure? Y/N");
             string confirmation = Console.ReadLine().ToUpper();
             if (confirmation != null)
             {
                 if (confirmation == "Y")
                 {
+                    StatUtility.InitializeStats();
                     GameMenu.GameMenuText();
                 }
                 else if (confirmation == "N")
@@ -44,7 +42,7 @@ namespace DungeonGuyConsole
             }
         }
 
-        private void _setCharacterName()
+        private static void _setCharacterName()
         {
             while (true)
             {
@@ -59,7 +57,7 @@ namespace DungeonGuyConsole
             }
         }
 
-        private void _setCharacterRace()
+        private static void _setCharacterRace()
         {
             while (true)
             {
@@ -79,7 +77,7 @@ namespace DungeonGuyConsole
             }
         }
 
-        private void _setCharacterJob()
+        private static void _setCharacterJob()
         {
             while (true)
             {
@@ -99,12 +97,12 @@ namespace DungeonGuyConsole
             }
         }
 
-        private bool _validateName(string name)
+        private static bool _validateName(string name)
         {
             return !string.IsNullOrWhiteSpace(name) && name.Length >= _minNameLength && name.Length <= _maxNameLength;
         }
 
-        private bool _validateSelection(string input, int maxOption, out int selection)
+        private static bool _validateSelection(string input, int maxOption, out int selection)
         {
             selection = 0;
             return int.TryParse(input, out selection) && selection > 0 && selection <= maxOption;

@@ -12,5 +12,18 @@
         public int Wisdom { get; set; }
         public int Charisma { get; set; }
 
+
+        public Stats(int health, int mana, int stamina, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma)
+        {
+            Health = health;
+            Mana = mana;
+            Stamina = stamina;
+            Strength = strength;
+            Dexterity = dexterity;
+            Constitution = constitution;
+            Intelligence = intelligence;
+            Wisdom = wisdom;
+            Charisma = charisma;
+        }
     }
 }

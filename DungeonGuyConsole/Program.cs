@@ -5,8 +5,7 @@ namespace DungeonGuyConsole
     {
         static void Main(string[] args)
         {
-            MainMenu menuUtility = new MainMenu();
-            menuUtility.TitleText();
+            MainMenu.TitleText();
         }
     }
 }
