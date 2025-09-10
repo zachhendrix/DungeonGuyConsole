@@ -3,10 +3,16 @@ namespace DungeonGuyConsole
 {
     public static class GameMenu
     {
+        public static void Initialize()
+        {
+            Dungeon.Initialize();
+            GameMenuText();
+        }
+
         public static void GameMenuText()
         {
-            Console.WriteLine("Welcome to the Game Menu!");
-            // Further implementation goes here
+            Console.WriteLine("Welcome to the Dungeon, guy!");
+            Dungeon.DrawMap();
         }
     }
 }

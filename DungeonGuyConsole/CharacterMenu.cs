@@ -28,7 +28,7 @@ namespace DungeonGuyConsole
                 if (confirmation == "Y")
                 {
                     StatUtility.InitializeStats();
-                    GameMenu.GameMenuText();
+                    GameMenu.Initialize();
                 }
                 else if (confirmation == "N")
                 {
